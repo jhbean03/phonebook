@@ -51,9 +51,7 @@ const App = () => {
           })
           .catch(error => {
             setIsError(true)
-            setNotif(
-              `Information for ${newName} has already been removed from the server.`
-            )
+            setNotif(error.response.data.error)
             setTimeout(() => {
               setNotif(null)
             }, 5000)
@@ -71,12 +69,22 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName("")
           setNewNumber("")
+          setIsError(false)
           setNotif(
               `Added ${returnedPerson.name}.`
             )
-            setTimeout(() => {
-              setNotif(null)
-            }, 5000)
+          setTimeout(() => {
+            setNotif(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setNewName("")
+          setNewNumber("")
+          setIsError(true)
+          setNotif(error.response.data.error)
+          setTimeout(() => {
+            setNotif(null)
+          }, 5000)
         })
     }
   }
